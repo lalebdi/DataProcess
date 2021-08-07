@@ -67,3 +67,10 @@ payload = {"value": "Robert Lance Smith", "mode": "name", "replace_with": "--bla
 
 r = requests.post(BASE, data=payload)
 print(r.json())
+
+input()
+
+payload = {"value": "unknown", "mode": "phone", "replace_with": "--blank--"}
+
+r = requests.post(BASE, data=payload)
+print(r.json())

@@ -21,7 +21,10 @@ def processing_data(data):
             new_data["output"] = cleaned_name
         elif data["mode"] == "phone":
             phone_num = extract_phone_number(data["value"])
-            new_data["output"] = phone_num
+            if phone_num == "":
+                new_data["output"] = data["replace_with"]
+            else:
+                new_data["output"] = phone_num
         elif data["mode"] == "amount":
             print("its amount")
     elif data["replace_with"] == "--original--":
@@ -34,6 +37,9 @@ def extract_phone_number(num):
     for i in num:
         if i.isdigit():
             phone_num += i
+
+    if len(phone_num) != 10:
+        phone_num = ""
     return phone_num
 
 

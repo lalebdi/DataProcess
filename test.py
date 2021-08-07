@@ -74,3 +74,10 @@ payload = {"value": "unknown", "mode": "phone", "replace_with": "--blank--"}
 
 r = requests.post(BASE, data=payload)
 print(r.json())
+
+input()
+
+payload = {"value": "12234", "mode": "name", "replace_with": "--blank--"}
+
+r = requests.post(BASE, data=payload)
+print(r.json())

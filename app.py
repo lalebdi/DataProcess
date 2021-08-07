@@ -12,8 +12,8 @@ post_args.add_argument("replace_with", type=str, help="Choose either --blank-- |
 
 
 def processing_data(data):
-    new_data = {}
-    new_data["original_value"] = data["value"]
+    template = [("original_value", data["value"]), ("mode", data["mode"])]
+    new_data = dict(template)
     if data["replace_with"] == "--blank--":
         if data["mode"] == "name":
             name = HumanName(data["value"])

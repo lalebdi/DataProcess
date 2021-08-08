@@ -53,7 +53,7 @@ class TestApi(unittest.TestCase):
 
     def test_7(self):
         payload = {'value': 'value1', 'mode': 'amount', 'replace_with': '--blank--'}
-        expected = {'message': 'Internal Server Error'}
+        expected = {'mode': 'amount', 'original_value': 'value1', 'output': 'value1'}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)

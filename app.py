@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse, abort
+from flask_restful import Api, Resource, reqparse
 from nameparser import HumanName
 
 app = Flask(__name__)
@@ -73,18 +73,22 @@ def extract_phone_number(num, replacement):
 
 def process_amount(input_string, replacement):
     """Takes in input_string (amount) as a string and replace_with arg as replacement, returns the eval or input_str"""
-    value = eval(input_string)
-    if isinstance(value, int):
-        return str(value)
+    try:
+        value = eval(input_string)
+        if isinstance(value, int):
+            return str(value)
 
-    elif isinstance(value, float):
-        amount = float(value)
-        return "{:.2f}".format(amount)
+        elif isinstance(value, float):
+            amount = float(value)
+            return "{:.2f}".format(amount)
 
-    if replacement == "--original--":
+        if replacement == "--original--":
+            return input_string
+        else:
+            return "--blank--"
+
+    except NameError:
         return input_string
-    else:
-        return "--blank--"
 
 
 class DataProcess(Resource):

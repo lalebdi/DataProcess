@@ -15,11 +15,8 @@ def processing_data(data):
     template = [("original_value", data["value"]), ("mode", data["mode"])]
     new_data = dict(template)
 
-    # if data["replace_with"] == "--blank--":
-
     if data["mode"] == "name":
-        name = HumanName(data["value"])
-        cleaned_name = name_output_cleanup(name.as_dict(), data["replace_with"])
+        cleaned_name = name_output_cleanup(data["value"], data["replace_with"])
         new_data["output"] = cleaned_name
 
     elif data["mode"] == "phone":
@@ -30,10 +27,27 @@ def processing_data(data):
         total_amount = process_amount(data["value"], data["replace_with"])
         new_data["output"] = total_amount
 
-    # elif data["replace_with"] == "--original--":
-    #     print("Its original")
-
     return new_data
+
+
+def name_output_cleanup(name_data, replacement):
+    name = HumanName(name_data).as_dict()
+    values = ['first', 'middle', 'last']
+    new_name = dict()
+
+    for key, value in name.items():
+        if value != "":
+            new_name[key] = value
+
+    if all(key in new_name for key in values):
+        return new_name
+    else:
+        if replacement == "--original--":
+            new_name = name_data
+        else:
+            new_name = dict([(key, "--blank--") for key in values])
+
+    return new_name
 
 
 def extract_phone_number(num, replacement):
@@ -49,19 +63,6 @@ def extract_phone_number(num, replacement):
             phone_num = num
 
     return phone_num
-
-
-def name_output_cleanup(data, replacement):
-    initial_values = [('first', replacement), ('last', replacement)]
-    name = dict(initial_values)
-    for key, value in data.items():
-        if value != "":
-            name[key] = value
-
-    if name['first'] == replacement or name['last'] == replacement:
-        name = dict([('first', replacement), ('middle', replacement), ('last', replacement)])
-
-    return name
 
 
 def process_amount(string, replacement):

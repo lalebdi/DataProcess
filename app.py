@@ -2,7 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from nameparser import HumanName
 
-app = Flask(__name__)
+application = Flask(__name__)
+app = application
 api = Api(app)
 
 post_args = reqparse.RequestParser()
@@ -106,4 +107,4 @@ api.add_resource(DataProcess, "/")
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

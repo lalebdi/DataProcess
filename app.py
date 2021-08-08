@@ -28,6 +28,9 @@ def processing_data(data):
         total_amount = process_amount(data["value"], data["replace_with"])
         new_data["output"] = total_amount
 
+    else:
+        return {'message': {'mode': "phone || name || amount"}}
+
     return new_data
 
 

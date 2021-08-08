@@ -12,6 +12,7 @@ post_args.add_argument("replace_with", type=str, help="Choose either --blank-- |
 
 
 def processing_data(data):
+    """Takes in a dict data from the post request, returns a new dict with the data processed"""
     template = [("original_value", data["value"]), ("mode", data["mode"])]
     new_data = dict(template)
 
@@ -31,6 +32,7 @@ def processing_data(data):
 
 
 def name_output_cleanup(name_data, replacement):
+    """Takes in the name value as string and replace_with arg as replacement, returns a dict with mapped name"""
     unprocessed_name = HumanName(name_data).as_dict()
     values = ['first', 'middle', 'last']
     new_name = dict()
@@ -51,6 +53,7 @@ def name_output_cleanup(name_data, replacement):
 
 
 def extract_phone_number(num, replacement):
+    """Takes in the phone number as string and replace_with arg as replacement, returns processed phone num or None"""
     phone_num = ""
     for i in num:
         if i.isdigit():
@@ -65,8 +68,9 @@ def extract_phone_number(num, replacement):
     return phone_num
 
 
-def process_amount(string, replacement):
-    value = eval(string)
+def process_amount(input_string, replacement):
+    """Takes in input_string (amount) as a string and replace_with arg as replacement, returns the eval or input_str"""
+    value = eval(input_string)
     if isinstance(value, int):
         return str(value)
 
@@ -75,7 +79,7 @@ def process_amount(string, replacement):
         return "{:.2f}".format(amount)
 
     if replacement == "--original--":
-        return string
+        return input_string
     else:
         return "--blank--"
 

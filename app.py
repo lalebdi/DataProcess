@@ -27,7 +27,7 @@ def processing_data(data):
         new_data["output"] = phone_num
 
     elif data["mode"] == "amount":
-        total_amount = process_amount(data["value"])
+        total_amount = process_amount(data["value"], data["replace_with"])
         new_data["output"] = total_amount
 
     # elif data["replace_with"] == "--original--":
@@ -64,7 +64,7 @@ def name_output_cleanup(data, replacement):
     return name
 
 
-def process_amount(string):
+def process_amount(string, replacement):
     value = eval(string)
     if isinstance(value, int):
         return str(value)
@@ -73,7 +73,10 @@ def process_amount(string):
         amount = float(value)
         return "{:.2f}".format(amount)
 
-    return string
+    if replacement == "--original--":
+        return string
+    else:
+        return "--blank--"
 
 
 class DataProcess(Resource):

@@ -98,6 +98,6 @@ class DataProcess(Resource):
 
 api.add_resource(DataProcess, "/")
 
-#
-# if __name__ == '__main__':
-#     app.run()
+
+if __name__ == '__main__':
+    app.run()

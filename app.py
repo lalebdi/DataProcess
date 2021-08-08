@@ -16,8 +16,8 @@ def processing_data(data):
     new_data = dict(template)
 
     if data["mode"] == "name":
-        cleaned_name = name_output_cleanup(data["value"], data["replace_with"])
-        new_data["output"] = cleaned_name
+        name = name_output_cleanup(data["value"], data["replace_with"])
+        new_data["output"] = name
 
     elif data["mode"] == "phone":
         phone_num = extract_phone_number(data["value"], data["replace_with"])
@@ -31,11 +31,11 @@ def processing_data(data):
 
 
 def name_output_cleanup(name_data, replacement):
-    name = HumanName(name_data).as_dict()
+    unprocessed_name = HumanName(name_data).as_dict()
     values = ['first', 'middle', 'last']
     new_name = dict()
 
-    for key, value in name.items():
+    for key, value in unprocessed_name.items():
         if value != "":
             new_name[key] = value
 

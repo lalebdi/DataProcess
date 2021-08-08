@@ -15,23 +15,23 @@ def processing_data(data):
     template = [("original_value", data["value"]), ("mode", data["mode"])]
     new_data = dict(template)
 
-    if data["replace_with"] == "--blank--":
+    # if data["replace_with"] == "--blank--":
 
-        if data["mode"] == "name":
-            name = HumanName(data["value"])
-            cleaned_name = name_output_cleanup(name.as_dict(), data["replace_with"])
-            new_data["output"] = cleaned_name
+    if data["mode"] == "name":
+        name = HumanName(data["value"])
+        cleaned_name = name_output_cleanup(name.as_dict(), data["replace_with"])
+        new_data["output"] = cleaned_name
 
-        elif data["mode"] == "phone":
-            phone_num = extract_phone_number(data["value"], data["replace_with"])
-            new_data["output"] = phone_num
+    elif data["mode"] == "phone":
+        phone_num = extract_phone_number(data["value"], data["replace_with"])
+        new_data["output"] = phone_num
 
-        elif data["mode"] == "amount":
-            total_amount = process_amount(data["value"])
-            new_data["output"] = total_amount
+    elif data["mode"] == "amount":
+        total_amount = process_amount(data["value"])
+        new_data["output"] = total_amount
 
-    elif data["replace_with"] == "--original--":
-        print("Its original")
+    # elif data["replace_with"] == "--original--":
+    #     print("Its original")
 
     return new_data
 
@@ -43,7 +43,11 @@ def extract_phone_number(num, replacement):
             phone_num += i
 
     if len(phone_num) != 10:
-        phone_num = replacement
+        if replacement == "--blank--":
+            phone_num = replacement
+        else:
+            phone_num = num
+
     return phone_num
 
 

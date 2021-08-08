@@ -73,8 +73,7 @@ def process_amount(string):
         amount = float(value)
         return "{:.2f}".format(amount)
 
-    else:
-        return string
+    return string
 
 
 class DataProcess(Resource):

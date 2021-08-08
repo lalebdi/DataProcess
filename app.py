@@ -18,16 +18,13 @@ def processing_data(data):
     new_data = dict(template)
 
     if data["mode"] == "name":
-        name = name_output_cleanup(data["value"], data["replace_with"])
-        new_data["output"] = name
+        new_data["output"] = name_output_cleanup(data["value"], data["replace_with"])
 
     elif data["mode"] == "phone":
-        phone_num = extract_phone_number(data["value"], data["replace_with"])
-        new_data["output"] = phone_num
+        new_data["output"] = extract_phone_number(data["value"], data["replace_with"])
 
     elif data["mode"] == "amount":
-        total_amount = process_amount(data["value"], data["replace_with"])
-        new_data["output"] = total_amount
+        new_data["output"] = process_amount(data["value"], data["replace_with"])
 
     else:
         return {'message': {'mode': "phone || name || amount"}}

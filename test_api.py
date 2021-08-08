@@ -52,8 +52,8 @@ class TestApi(unittest.TestCase):
         self.assertEqual(res.json(), expected)
 
     def test_7(self):
-        payload = {'value': 'value1', 'mode': 'amount', 'replace_with': '--blank--'}
-        expected = {'mode': 'amount', 'original_value': 'value1', 'output': 'value1'}
+        payload = {'value': '1dollar', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': '1dollar', 'mode': 'amount', 'output': '1.00'}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)
@@ -143,29 +143,71 @@ class TestApi(unittest.TestCase):
         self.assertEqual(res.json(), expected)
 
     def test_20(self):
-        payload = {'value': '2 * 2', 'mode': 'amount', 'replace_with': '--blank--'}
-        expected = {'original_value': '2 * 2', 'mode': 'amount', 'output': '4'}
+        payload = {'value': '$12,345.6', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': '$12,345.6', 'mode': 'amount', 'output': '12345.60'}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)
 
     def test_21(self):
-        payload = {'value': '3.14159 + 2', 'mode': 'amount', 'replace_with': '--blank--'}
-        expected = {'original_value': '3.14159 + 2', 'mode': 'amount', 'output': '5.14'}
+        payload = {'value': '35', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': '35', 'mode': 'amount', 'output': '35.00'}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)
 
     def test_22(self):
-        payload = {'value': 'dir()', 'mode': 'amount', 'replace_with': '--blank--'}
-        expected = {'original_value': 'dir()', 'mode': 'amount', 'output': '--blank--'}
+        payload = {'value': 'Hello World', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': 'Hello World', 'mode': 'amount', 'output': '--blank--'}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)
 
     def test_23(self):
-        payload = {'value': 'dir()', 'mode': 'amount', 'replace_with': '--original--'}
-        expected = {'original_value': 'dir()', 'mode': 'amount', 'output': 'dir()'}
+        payload = {'value': '$12,345.6', 'mode': 'amount', 'replace_with': '--original--'}
+        expected = {'original_value': '$12,345.6', 'mode': 'amount', 'output': '12345.60'}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_24(self):
+        payload = {'value': 'Hello World', 'mode': 'amount', 'replace_with': '--original--'}
+        expected = {'original_value': 'Hello World', 'mode': 'amount', 'output': 'Hello World'}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_25(self):
+        payload = {'value': '35', 'mode': 'amount', 'replace_with': '--original--'}
+        expected = {'original_value': '35', 'mode': 'amount', 'output': '35.00'}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_26(self):
+        payload = {'value': ' ', 'mode': 'amount', 'replace_with': '--original--'}
+        expected = {'original_value': ' ', 'mode': 'amount', 'output': ' '}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_27(self):
+        payload = {'value': ' ', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': ' ', 'mode': 'amount', 'output': '--blank--'}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_28(self):
+        payload = {'value': '', 'mode': 'amount', 'replace_with': '--blank--'}
+        expected = {'original_value': '', 'mode': 'amount', 'output': '--blank--'}
+        res = requests.post(TestApi.BASE, json=payload)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json(), expected)
+
+    def test_29(self):
+        payload = {'value': '', 'mode': 'amount', 'replace_with': '--original--'}
+        expected = {'original_value': '', 'mode': 'amount', 'output': ''}
         res = requests.post(TestApi.BASE, json=payload)
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.json(), expected)

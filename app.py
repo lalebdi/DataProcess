@@ -73,23 +73,19 @@ def extract_phone_number(num, replacement):
 
 
 def process_amount(input_string, replacement):
-    """Takes in input_string (amount) as a string and replace_with arg as replacement, returns the eval or input_str"""
-    try:
-        value = eval(input_string)
-        if isinstance(value, int):
-            return str(value)
+    """Takes in input_string (amount) as a string and replace_with arg as replacement, returns the the processed str"""
+    new_amount = ""
+    for char in input_string:
+        if char.isdigit() or char == ".":
+            new_amount += char
 
-        elif isinstance(value, float):
-            amount = float(value)
-            return "{:.2f}".format(amount)
-
-        if replacement == "--original--":
-            return input_string
-        else:
+    if new_amount == "":
+        if replacement == "--blank--":
             return "--blank--"
+        else:
+            return input_string
 
-    except NameError:
-        return input_string
+    return "{:.2f}".format(float(new_amount))
 
 
 class DataProcess(Resource):

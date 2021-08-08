@@ -27,7 +27,8 @@ def processing_data(data):
             new_data["output"] = phone_num
 
         elif data["mode"] == "amount":
-            print("its amount")
+            total_amount = process_amount(data["value"])
+            new_data["output"] = total_amount
 
     elif data["replace_with"] == "--original--":
         print("Its original")
@@ -59,9 +60,22 @@ def name_output_cleanup(data, replacement):
     return name
 
 
+def process_amount(string):
+    value = eval(string)
+    if isinstance(value, int):
+        return str(value)
+
+    elif isinstance(value, float):
+        amount = float(value)
+        return "{:.2f}".format(amount)
+
+    else:
+        return string
+
+
 class DataProcess(Resource):
     def get(self):
-        return {"message": 'This URL that will accept a POST call with the following payload : '
+        return {"message": 'This URL will accept a POST call with the following payload : '
                            '{value: "<value goes here>", mode: "phone || name || amount", "replace_with": "--blank-- || --original--"}'}
 
     def post(self):
